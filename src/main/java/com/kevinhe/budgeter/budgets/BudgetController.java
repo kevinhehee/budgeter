@@ -1,6 +1,7 @@
-package com.kevinhe.budgeter.budget;
+package com.kevinhe.budgeter.budgets;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,6 @@ public class BudgetController {
             this.name = name;
         }
     }
-
 
     private final BudgetService budgetService;
 

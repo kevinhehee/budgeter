@@ -1,18 +1,25 @@
-package com.kevinhe.budgeter.budget;
+package com.kevinhe.budgeter.budgets;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kevinhe.budgeter.users.User;
 import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "budget")
+@Table(name = "budgets")
 public class Budget {
 
     @Id
     @Column(name = "id", nullable = false)
     private UUID id;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -20,12 +27,11 @@ public class Budget {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    protected Budget() {
+    protected Budget() {}
 
-    }
-
-    public Budget(String name) {
+    public Budget(User user, String name) {
         this.name = name;
+        this.user = user;
     }
 
     @PrePersist
@@ -41,13 +47,14 @@ public class Budget {
     public UUID getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
-
     public Instant getCreatedAt() {
         return createdAt;
+    }
+    public User getUser() {
+        return user;
     }
 
     public void setName(String name) {
