@@ -1,13 +1,9 @@
 package com.kevinhe.budgeter.budgets;
 
-
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -32,20 +28,17 @@ public class BudgetController {
 
     public static class UpdateBudgetRequest {
         @NotBlank
-        private UUID id;
-
-        @NotBlank
-        private String newName;
+        private String name;
 
         public UpdateBudgetRequest() {
         }
 
-        public UUID getId() {
-            return this.id;
+        public String getName() {
+            return this.name;
         }
 
-        public String getNewName() {
-            return this.newName;
+        public void setName(String name) {
+            this.name = name;
         }
     }
 
@@ -55,21 +48,22 @@ public class BudgetController {
         this.budgetService = budgetService;
     }
 
-    @GetMapping
-    public List<Budget> getAllBudgets() {
-        return budgetService.getAllBudgets();
-    }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Budget createBudget(@Valid @RequestBody CreateBudgetRequest request) {
         return budgetService.createBudget(request.getName());
     }
 
-    @PatchMapping
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateBudgetName(@Valid @RequestBody UpdateBudgetRequest request) {
-        budgetService.updateBudgetName(request.getId(), request.getNewName());
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateBudgetName(@PathVariable UUID id, @Valid @RequestBody UpdateBudgetRequest request) throws IllegalStateException {
+        budgetService.updateBudgetName(id, request.getName());
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBudget(@PathVariable UUID id) {
+        budgetService.deleteBudget(id);
     }
 
 }
