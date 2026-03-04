@@ -2,8 +2,12 @@ package com.kevinhe.budgeter.budgets;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -42,9 +46,56 @@ public class BudgetController {
         }
     }
 
+    public static class CreateEntryRequest {
+        @NotBlank
+        private String name;
+
+        private String description;
+
+        @NotNull
+        private long cents;
+
+        LocalDate transactionDate;
+
+        public String getName() {
+            return this.name;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
+
+        public LocalDate getTransactionDate() {
+            return this.transactionDate;
+        }
+
+        public long getCents() {
+            return this.cents;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setTransactionDate(LocalDate transactionDate) {
+            this.transactionDate = transactionDate;
+        }
+
+        public void setCents(long cents) {
+            this.cents = cents;
+        }
+    }
+
     private final BudgetService budgetService;
 
-    public BudgetController(BudgetService budgetService) {
+    private final EntryService entryService;
+
+    public BudgetController(EntryService entryService, BudgetService budgetService) {
+        this.entryService = entryService;
         this.budgetService = budgetService;
     }
 
@@ -66,4 +117,21 @@ public class BudgetController {
         budgetService.deleteBudget(id);
     }
 
+    @GetMapping("/{id}/entries")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public List<Entry> getEntriesByBudgetId(@PathVariable UUID id) {
+        return budgetService.getEntriesByBudgetId(id);
+    }
+
+    @PostMapping("/{id}/entries")
+    @ResponseStatus()
+    public Entry createEntry(@PathVariable UUID id, @Valid @RequestBody CreateEntryRequest request) {
+        return entryService.createEntry(
+            id,
+            request.getName(),
+            request.getDescription(),
+            request.getTransactionDate(),
+            request.getCents()
+        );
+    }
 }

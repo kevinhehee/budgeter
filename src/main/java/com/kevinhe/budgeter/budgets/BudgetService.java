@@ -23,11 +23,13 @@ public class BudgetService {
     private final CurrentUserProvider currentUserProvider;
 
     private final UserRepository userRepository;
+    private final EntryRepository entryRepository;
 
-    public BudgetService(BudgetRepository budgetRepository, CurrentUserProvider currentUserProvider, UserRepository userRepository) {
+    public BudgetService(BudgetRepository budgetRepository, CurrentUserProvider currentUserProvider, UserRepository userRepository, EntryRepository entryRepository) {
         this.budgetRepository = budgetRepository;
         this.currentUserProvider = currentUserProvider;
         this.userRepository = userRepository;
+        this.entryRepository = entryRepository;
     }
 
     public Budget createBudget(String name) {
@@ -56,5 +58,12 @@ public class BudgetService {
         if (deleted == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Budget not found");
         }
+    }
+
+    public List<Entry> getEntriesByBudgetId(UUID budgetId) {
+        budgetRepository.findByIdAndUserId(budgetId, currentUserProvider.currentUserId())
+                .orElseThrow(() -> new IllegalStateException("Budget does not exist"));
+
+        return entryRepository.getEntriesByBudgetId(budgetId);
     }
 }

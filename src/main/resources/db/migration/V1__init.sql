@@ -39,9 +39,19 @@ CREATE TABLE budgets (
 
 CREATE INDEX IF NOT EXISTS idx_budgets_user_id ON budgets(user_id);
 
--- CREATE TABLE expenses (
---     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
---     budget_Id UUID NOT NULL,
---     name TEXT NOT NULL,
---     cost
--- )
+
+CREATE TABLE entries (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    budget_id UUID NOT NULL,
+    name TEXT NOT NULL,
+    description TEXT,
+    cents BIGINT NOT NULL,
+    transaction_date TIMESTAMPTZ,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    CONSTRAINT fk_entries_budget_id
+        FOREIGN KEY (budget_id)
+        REFERENCES budgets(id)
+        ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_entries_budgets ON entries(budget_id);
