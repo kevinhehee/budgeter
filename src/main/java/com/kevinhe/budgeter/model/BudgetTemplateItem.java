@@ -1,5 +1,6 @@
 package com.kevinhe.budgeter.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -7,8 +8,8 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "budget_templates")
-public class BudgetTemplate {
+@Table(name = "budget_template_items")
+public class BudgetTemplateItem {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -16,11 +17,20 @@ public class BudgetTemplate {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "budget_template_id", nullable = false)
+    private BudgetTemplate budgetTemplate;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "label", nullable = false)
+    private String label;
+
+    @Column(name = "cents", nullable = false)
+    private Long cents;
+
+    @Column(name = "type", nullable = false)
+    private String type;
+
+    @Column(name = "display_order", nullable = false)
+    private Integer displayOrder;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
@@ -46,29 +56,14 @@ public class BudgetTemplate {
         updatedAt = Instant.now();
     }
 
-    public BudgetTemplate() {
+    public BudgetTemplateItem() {}
 
-    }
-
-    public BudgetTemplate(User user, String name) {
-        this.name = name;
-        this.user = user;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
-    }
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-    public User getUser() {
-        return user;
+    public BudgetTemplateItem(BudgetTemplate budgetTemplate, String label, Long cents, String type, Integer displayOrder) {
+        this.budgetTemplate = budgetTemplate;
+        this.label = label;
+        this.cents = cents;
+        this.type = type;
+        this.displayOrder = displayOrder;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 }
