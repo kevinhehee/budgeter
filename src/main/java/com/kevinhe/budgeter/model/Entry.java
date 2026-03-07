@@ -62,6 +62,7 @@ public class Entry {
     public long getCents() { return cents; }
     public Instant getTransactionDate() { return transactionDate; }
     public Instant getCreatedAt() { return createdAt; }
+    public String getDescription() { return description; }
 
     public void setName(String name) { this.name = name; }
     public void setDescription(String description) { this.description = description; }
