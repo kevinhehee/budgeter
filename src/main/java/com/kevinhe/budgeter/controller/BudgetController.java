@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.UUID;
 
@@ -94,6 +95,14 @@ public class BudgetController {
         }
     }
 
+    public record EntryResponse(
+            UUID id,
+            String name,
+            String description,
+            long cents,
+            LocalDate transactionDate
+    ) {}
+
     private final BudgetService budgetService;
 
     private final EntryService entryService;
@@ -134,14 +143,22 @@ public class BudgetController {
     }
 
     @PostMapping("/{id}/entries")
-    @ResponseStatus()
-    public Entry createEntry(@PathVariable UUID id, @Valid @RequestBody CreateEntryRequest request) {
-        return entryService.createEntry(
+    @ResponseStatus(HttpStatus.CREATED)
+    public EntryResponse createEntry(@PathVariable UUID id, @Valid @RequestBody CreateEntryRequest request) {
+        Entry entry = entryService.createEntry(
             id,
             request.getName(),
             request.getDescription(),
             request.getTransactionDate(),
             request.getCents()
+        );
+
+        return new EntryResponse(
+                entry.getId(),
+                entry.getName(),
+                entry.getDescription(),
+                entry.getCents(),
+                entry.getTransactionDate().atZone(ZoneOffset.UTC).toLocalDate()
         );
     }
 }

@@ -41,13 +41,17 @@ public class EntryService {
             long cents
     ) {
 
+        LocalDate effectiveTransactionDate =
+                transactionDate != null ? transactionDate : LocalDate.now();
+
         Budget budget = budgetRepository
                 .findByIdAndUserId(budgetId, currentUserProvider.currentUserId())
                 .orElseThrow(() -> new IllegalStateException("Budget not in database"));
 
-        return entryRepository.save(new Entry(budget, name, description, transactionDate, cents));
+        return entryRepository.save(new Entry(budget, name, description, effectiveTransactionDate, cents));
     }
 
+    @Transactional
     public void deleteEntry(UUID id) {
         long deleted = entryRepository.deleteEntryById(id);
 
