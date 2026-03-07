@@ -1,6 +1,5 @@
 package com.kevinhe.budgeter.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
@@ -8,8 +7,8 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-@Table(name = "budgets")
-public class Budget {
+@Table(name = "budget_templates")
+public class BudgetTemplate {
 
     @Id
     @Column(name = "id", nullable = false)
@@ -20,18 +19,14 @@ public class Budget {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    protected Budget() {}
-
-    public Budget(User user, String name) {
-        this.name = name;
-        this.user = user;
-    }
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
 
     @PrePersist
     public void prePersist() {
@@ -41,8 +36,20 @@ public class Budget {
         if (createdAt == null) {
             createdAt = Instant.now();
         }
+        if (updatedAt == null) {
+            updatedAt = Instant.now();
+        }
     }
 
+    @PreUpdate
+    public void preUpdate() {
+        updatedAt = Instant.now();
+    }
+
+    public BudgetTemplate(User user, String name) {
+        this.name = name;
+        this.user = user;
+    }
 
     public UUID getId() {
         return id;
