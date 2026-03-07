@@ -32,6 +32,13 @@ public class BudgetService {
         this.entryRepository = entryRepository;
     }
 
+    public List<Budget> getBudgets() {
+        User user = userRepository.findById(currentUserProvider.currentUserId())
+                .orElseThrow(() -> new IllegalStateException("User not in database"));
+
+        return budgetRepository.findByUserId(user.getId());
+    }
+
     public Budget createBudget(String name) {
         User user = userRepository
                 .findById(currentUserProvider.currentUserId())

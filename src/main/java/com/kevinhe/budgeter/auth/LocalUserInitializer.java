@@ -3,11 +3,13 @@ package com.kevinhe.budgeter.auth;
 import com.kevinhe.budgeter.users.User;
 import com.kevinhe.budgeter.users.UserRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
+@Profile("local")
 public class LocalUserInitializer {
 
     private static final UUID LOCAL_USER_ID =

@@ -47,11 +47,23 @@ public class User {
         this.id = id;
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
 
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public Instant getCreatedAt() {
+        return this.createdAt;
     }
 }

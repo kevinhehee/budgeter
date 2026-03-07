@@ -99,6 +99,12 @@ public class BudgetController {
         this.budgetService = budgetService;
     }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<Budget> getBudgets() {
+        return budgetService.getBudgets();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Budget createBudget(@Valid @RequestBody CreateBudgetRequest request) {

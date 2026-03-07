@@ -21,11 +21,4 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<Budget> getBudgets(UUID userId) {
-        User user = userRepository.findById(currentUserProvider.currentUserId())
-            .orElseThrow(() -> new IllegalStateException("User not in database"));
-
-        return budgetRepository.findByUserId(userId);
-    }
-
 }
