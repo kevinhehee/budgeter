@@ -35,9 +35,4 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/{id}/budgets")
-    public List<Budget> getBudgets(@PathVariable UUID id) {
-        return userService.getBudgets(id);
-    }
-
 }

@@ -22,7 +22,7 @@ public class AuthService {
     }
 
     @Transactional
-    public void ensureUserExists(String email, String displayName, String sub) {
+    public User ensureUserExists(String email, String displayName, String sub) {
 
         Optional<AuthIdentity> identity = authRepository.findByProviderAndSub("google", sub);
 
@@ -39,11 +39,17 @@ public class AuthService {
                             email
                     )
             );
+
+            return newUser;
         } else {
             AuthIdentity existing = identity.get();
             existing.setEmail(email);
             existing.setLastLoginAt(Instant.now());
             authRepository.save(existing);
+
+            return userRepository.findById(identity.get().getUserId())
+                    .orElseThrow(() -> new IllegalStateException("User does not exist in database"));
+
         }
     }
 

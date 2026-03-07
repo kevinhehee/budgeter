@@ -1,10 +1,13 @@
 package com.kevinhe.budgeter.auth;
 
 
+import com.kevinhe.budgeter.users.User;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 @RestController
 public class AuthController {
@@ -15,16 +18,16 @@ public class AuthController {
         this.authService = authService;
     }
 
-    public record MeResponse(String email, String name, String sub) {}
+    public record MeResponse(UUID id, String email, String name) {}
 
 
 
     @GetMapping("/me")
-    public MeResponse me(@AuthenticationPrincipal OidcUser user) {
+    public MeResponse me(@AuthenticationPrincipal OidcUser oidcUser) {
 
-        authService.ensureUserExists(user.getEmail(), user.getFullName(), user.getSubject());
+        User user = authService.ensureUserExists(oidcUser.getEmail(), oidcUser.getFullName(), oidcUser.getSubject());
 
-        return new MeResponse(user.getEmail(), user.getFullName(), user.getSubject());
+        return new MeResponse(user.getId(), user.getEmail(), user.getDisplayName());
     }
 
 }
