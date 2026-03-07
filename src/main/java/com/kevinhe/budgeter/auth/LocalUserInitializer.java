@@ -1,7 +1,7 @@
 package com.kevinhe.budgeter.auth;
 
-import com.kevinhe.budgeter.users.User;
-import com.kevinhe.budgeter.users.UserRepository;
+import com.kevinhe.budgeter.model.User;
+import com.kevinhe.budgeter.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

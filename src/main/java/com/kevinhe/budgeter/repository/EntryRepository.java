@@ -1,5 +1,6 @@
-package com.kevinhe.budgeter.budgets;
+package com.kevinhe.budgeter.repository;
 
+import com.kevinhe.budgeter.model.Entry;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
