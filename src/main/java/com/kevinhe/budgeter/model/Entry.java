@@ -1,4 +1,4 @@
-package com.kevinhe.budgeter.budgets;
+package com.kevinhe.budgeter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

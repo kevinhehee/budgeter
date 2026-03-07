@@ -1,8 +1,10 @@
-package com.kevinhe.budgeter.auth;
+package com.kevinhe.budgeter.service;
 
 
-import com.kevinhe.budgeter.users.User;
-import com.kevinhe.budgeter.users.UserRepository;
+import com.kevinhe.budgeter.model.AuthIdentity;
+import com.kevinhe.budgeter.model.User;
+import com.kevinhe.budgeter.repository.AuthRepository;
+import com.kevinhe.budgeter.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

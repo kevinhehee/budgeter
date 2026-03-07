@@ -1,5 +1,7 @@
 package com.kevinhe.budgeter.auth;
 
+import com.kevinhe.budgeter.model.AuthIdentity;
+import com.kevinhe.budgeter.repository.AuthRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;

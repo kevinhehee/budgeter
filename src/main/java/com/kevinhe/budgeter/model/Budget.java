@@ -1,8 +1,7 @@
-package com.kevinhe.budgeter.budgets;
+package com.kevinhe.budgeter.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kevinhe.budgeter.users.User;
 import jakarta.persistence.*;
 
 import java.time.Instant;

@@ -1,7 +1,5 @@
 package com.kevinhe.budgeter.auth;
 
-import com.kevinhe.budgeter.users.User;
-import com.kevinhe.budgeter.users.UserRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 

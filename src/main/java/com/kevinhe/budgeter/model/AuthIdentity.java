@@ -1,8 +1,7 @@
-package com.kevinhe.budgeter.auth;
+package com.kevinhe.budgeter.model;
 
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 import java.time.Instant;
 import java.util.UUID;

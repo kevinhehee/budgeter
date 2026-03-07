@@ -1,5 +1,9 @@
-package com.kevinhe.budgeter.budgets;
+package com.kevinhe.budgeter.controller;
 
+import com.kevinhe.budgeter.model.Budget;
+import com.kevinhe.budgeter.model.Entry;
+import com.kevinhe.budgeter.service.BudgetService;
+import com.kevinhe.budgeter.service.EntryService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
