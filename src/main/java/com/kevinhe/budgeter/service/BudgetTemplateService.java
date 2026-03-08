@@ -57,6 +57,15 @@ public class BudgetTemplateService {
     }
 
     @Transactional
+    public void deleteBudgetTemplates() {
+        long deleted = budgetTemplateRepository.deleteBudgetTemplatesByUserId(currentUserProvider.currentUserId());
+
+        if (deleted == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Budget Templates Found");
+        }
+    }
+
+    @Transactional
     public void deleteBudgetTemplate(UUID id) {
         long deleted = budgetTemplateRepository.deleteBudgetTemplateByIdAndUserId(id, currentUserProvider.currentUserId());
 

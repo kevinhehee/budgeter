@@ -9,8 +9,12 @@ import java.util.UUID;
 
 public interface BudgetTemplateRepository extends JpaRepository<BudgetTemplate, UUID> {
     Long deleteBudgetTemplateByIdAndUserId(UUID id, UUID userId);
+    Long deleteBudgetTemplatesByUserId(UUID userId);
     List<BudgetTemplate> getBudgetTemplatesByUserId(UUID userId);
-
     Long countByUserId(UUID userId);
     Boolean existsBudgetTemplateByNameAndUserId(String name, UUID userId);
+
+    Optional<BudgetTemplate> findByIdAndUserId(UUID id, UUID userId);
+
+    BudgetTemplate getBudgetTemplateById(UUID id);
 }

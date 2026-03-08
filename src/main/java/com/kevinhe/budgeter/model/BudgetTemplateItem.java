@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 
+
 @Entity
 @Table(name = "budget_template_items")
 public class BudgetTemplateItem {
@@ -66,4 +67,67 @@ public class BudgetTemplateItem {
         this.displayOrder = displayOrder;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public BudgetTemplate getBudgetTemplate() {
+        return budgetTemplate;
+    }
+
+    public void setBudgetTemplate(BudgetTemplate budgetTemplate) {
+        this.budgetTemplate = budgetTemplate;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    public Long getCents() {
+        return cents;
+    }
+
+    public void setCents(Long cents) {
+        this.cents = cents;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Integer getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(Integer displayOrder) {
+        this.displayOrder = displayOrder;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }
