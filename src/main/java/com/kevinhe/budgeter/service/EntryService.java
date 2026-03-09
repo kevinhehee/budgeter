@@ -4,6 +4,7 @@ package com.kevinhe.budgeter.service;
 import com.kevinhe.budgeter.auth.CurrentUserProvider;
 import com.kevinhe.budgeter.model.Budget;
 import com.kevinhe.budgeter.model.Entry;
+import com.kevinhe.budgeter.model.User;
 import com.kevinhe.budgeter.repository.BudgetRepository;
 import com.kevinhe.budgeter.repository.EntryRepository;
 import com.kevinhe.budgeter.repository.UserRepository;
@@ -31,6 +32,13 @@ public class EntryService {
         this.currentUserProvider = currentUserProvider;
         this.userRepository = userRepository;
         this.entryRepository = entryRepository;
+    }
+
+    public Entry getEntry(UUID id) {
+        UUID userId = currentUserProvider.currentUserId();
+
+        return entryRepository.getEntryByIdAndBudgetUserId(id, userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Entry not found"));
     }
 
     public Entry createEntry(
@@ -68,8 +76,6 @@ public class EntryService {
             Long cents,
             LocalDate transactionDate
     ) {
-
-
         Entry entry = entryRepository
                 .findById(id)
                 .orElseThrow(() -> new IllegalStateException("Entry not in database"));

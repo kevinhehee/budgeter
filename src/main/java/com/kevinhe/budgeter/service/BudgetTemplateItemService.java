@@ -31,7 +31,28 @@ public class BudgetTemplateItemService {
         this.userRepository = userRepository;
     }
 
+    public BudgetTemplateItem getBudgetTemplateItemById(UUID id) {
+        UUID userId = currentUserProvider.currentUserId();
 
+        return budgetTemplateItemRepository.getBudgetTemplateItemByIdAndBudgetTemplateUserId(id, userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Budget Template Item Not Found"));
+    }
+
+    public List<BudgetTemplateItem> getBudgetTemplateItemsByBudgetTemplateId(UUID budgetTemplateId) {
+
+        User currUser = userRepository.findById(currentUserProvider.currentUserId())
+                .orElseThrow(() -> new RuntimeException("User doesn't exist"));
+
+        UUID currUserId = currUser.getId();
+        UUID budgetOwnerUserId = budgetTemplateRepository.getBudgetTemplateById(budgetTemplateId).getUser().getId();
+        if (!currUserId.equals(budgetOwnerUserId)) {
+            throw new RuntimeException("Budget Template doesn't exist");
+        }
+
+
+
+        return budgetTemplateItemRepository.getBudgetTemplateItemsBy(budgetTemplateId);
+    }
 
     public BudgetTemplateItem createBudgetTemplateItem(
             UUID budgetId,
@@ -55,20 +76,6 @@ public class BudgetTemplateItemService {
         }
     }
 
-    public List<BudgetTemplateItem> getBudgetTemplateItemsByBudgetTemplateId(UUID id) {
 
-        User currUser = userRepository.findById(currentUserProvider.currentUserId())
-                .orElseThrow(() -> new RuntimeException("User doesn't exist"));
-
-        UUID currUserId = currUser.getId();
-        UUID budgetOwnerUserId = budgetTemplateRepository.getBudgetTemplateById(id).getUser().getId();
-        if (!currUserId.equals(budgetOwnerUserId)) {
-            throw new RuntimeException("Budget Template doesn't exist");
-        }
-
-
-
-        return budgetTemplateItemRepository.getBudgetTemplateItemsBy(id);
-    }
 
 }

@@ -118,6 +118,12 @@ public class BudgetController {
         return budgetService.getBudgets();
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Budget getBudget(@PathVariable UUID id) {
+        return budgetService.getBudget(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Budget createBudget(@Valid @RequestBody CreateBudgetRequest request) {

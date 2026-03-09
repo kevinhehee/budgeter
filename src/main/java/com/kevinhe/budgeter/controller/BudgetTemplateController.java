@@ -74,6 +74,19 @@ public class BudgetTemplateController {
         this.budgetTemplateItemService = budgetTemplateItemService;
     }
 
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public BudgetTemplate getBudgetTemplate(@PathVariable UUID id) {
+        return budgetTemplateService.getBudgetTemplate(id);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<BudgetTemplate> getBudgetTemplates() {
+        return budgetTemplateService.getBudgetTemplates();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.OK)
     public BudgetTemplate createBudgetTemplate(@RequestBody CreateBudgetTemplateRequest request) {
@@ -92,17 +105,20 @@ public class BudgetTemplateController {
         budgetTemplateService.deleteBudgetTemplates();
     }
 
-    @GetMapping
+
+
+    // budget template items
+
+    @GetMapping("/budget-template-items/{budgetTemplateItemId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<BudgetTemplate> getBudgetTemplates() {
-        return budgetTemplateService.getBudgetTemplates();
+    public BudgetTemplateItem getBudgetTemplateItem(@PathVariable UUID budgetTemplateItemId) {
+        return budgetTemplateItemService.getBudgetTemplateItemById(budgetTemplateItemId);
     }
 
-    @GetMapping("/{id}/budget-template-items")
+    @GetMapping("/{budgetTemplateId}/budget-template-items")
     @ResponseStatus(HttpStatus.OK)
-    public List<BudgetTemplateItem> getBudgetTemplateItems(@PathVariable UUID id) {
-        List<BudgetTemplateItem> items = budgetTemplateItemService.getBudgetTemplateItemsByBudgetTemplateId(id);
-        return items;
+    public List<BudgetTemplateItem> getBudgetTemplateItems(@PathVariable UUID budgetTemplateId) {
+        return budgetTemplateItemService.getBudgetTemplateItemsByBudgetTemplateId(budgetTemplateId);
     }
 
     @PostMapping("/{id}/budget-template-items")

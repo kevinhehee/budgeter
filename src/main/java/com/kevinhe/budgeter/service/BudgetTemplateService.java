@@ -16,9 +16,6 @@ import java.util.UUID;
 
 @Service
 public class BudgetTemplateService {
-
-
-
     private final BudgetTemplateRepository budgetTemplateRepository;
     private final CurrentUserProvider currentUserProvider;
     private final UserRepository userRepository;
@@ -28,6 +25,21 @@ public class BudgetTemplateService {
         this.currentUserProvider = currentUserProvider;
         this.userRepository = userRepository;
     }
+
+    public BudgetTemplate getBudgetTemplate(UUID id) {
+        UUID userId = currentUserProvider.currentUserId();
+
+        return budgetTemplateRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Budget Template not found"));
+    }
+
+    public List<BudgetTemplate> getBudgetTemplates() {
+        User user = userRepository.findById(currentUserProvider.currentUserId())
+                .orElseThrow(() -> new IllegalStateException("User not in database"));
+
+        return budgetTemplateRepository.getBudgetTemplatesByUserId(user.getId());
+    }
+
 
     private String generateDefaultTemplateName(UUID userId) {
         int templateNum = 1;
@@ -74,10 +86,5 @@ public class BudgetTemplateService {
         }
     }
 
-    public List<BudgetTemplate> getBudgetTemplates() {
-        User user = userRepository.findById(currentUserProvider.currentUserId())
-                .orElseThrow(() -> new IllegalStateException("User not in database"));
 
-        return budgetTemplateRepository.getBudgetTemplatesByUserId(user.getId());
-    }
 }

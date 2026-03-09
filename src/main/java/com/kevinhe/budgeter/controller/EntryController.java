@@ -61,6 +61,14 @@ public class EntryController {
         this.entryService = entryService;
     }
 
+
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Entry getEntry(@PathVariable UUID id) {
+        return entryService.getEntry(id);
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEntry(@PathVariable UUID id) {

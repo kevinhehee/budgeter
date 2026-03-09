@@ -34,10 +34,14 @@ public class BudgetService {
     }
 
     public List<Budget> getBudgets() {
-        User user = userRepository.findById(currentUserProvider.currentUserId())
-                .orElseThrow(() -> new IllegalStateException("User not in database"));
+        return budgetRepository.findByUserId(currentUserProvider.currentUserId());
+    }
 
-        return budgetRepository.findByUserId(user.getId());
+    public Budget getBudget(UUID id) {
+        UUID userId = currentUserProvider.currentUserId();
+
+        return budgetRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Budget not found"));
     }
 
     public Budget createBudget(String name) {
