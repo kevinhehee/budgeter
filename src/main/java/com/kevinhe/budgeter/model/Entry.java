@@ -21,7 +21,7 @@ public class Entry {
     @JoinColumn(name = "budget_id", nullable = false)
     private Budget budget;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "description", nullable = true)
